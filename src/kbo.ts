@@ -21,7 +21,6 @@ getHtml()
 		const totalGameSet = $(
 			"div#cphContents_cphContents_cphContents_udpRecord"
 		).children("div.smsScore");
-		// console.log("length?", totalgameset.length);
 
 		const baseOn =
 			"//lgcxydabfbch3774324.cdn.ntruss.com/KBO_IMAGE/KBOHome/resources/images/common/base_on.png";
@@ -91,25 +90,6 @@ getHtml()
 			detailScore,
 			placeTime,
 		};
-		//홈팀 점수만
-		// $(ele)
-		// 	.find("table.tScore tbody tr")
-		// 	.eq(0)
-		// 	.children("td")
-		// 	.each((j, el) => {
-		// 		// const colName = $(el).text()
-		// 		testbed.push($(el).text());
-		// 	});
-
-		//어웨이팀 점수만
-		// $(ele)
-		// 	.find("table.tScore tbody tr")
-		// 	.eq(1)
-		// 	.children("td")
-		// 	.each((j, el) => {
-		// 		// const colName = $(el).text()
-		// 		testbed2.push($(el).text());
-		// 	});
 
 		// const scoreObj = {
 		// 	1: "",
@@ -132,5 +112,26 @@ getHtml()
 	})
 	.then((res) => {
 		console.log(res);
-		const gameCount = res.homeTeam;
+		const {
+			date,
+			homeTeam,
+			awayTeam,
+			inning,
+			score,
+			baseState,
+			ballCount,
+			detailScore,
+			placeTime,
+		} = res;
+		const gameCount = res.homeTeam.length;
+
+		for (let i = 0; i < gameCount; i++)
+			let dataMold = {
+				date: date,
+				time: "",
+				homeTeam: "",
+				awayTeam: "",
+			};
+
+		//이제 하나씩 뽑아서 atlas로 보낼거임
 	});
