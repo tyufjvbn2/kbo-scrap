@@ -37,6 +37,8 @@ getHtml()
 
 		let testbed: any[] = [];
 
+		const date = $("ul.date li.today span.date-txt").text();
+
 		totalGameSet.each((i, ele) => {
 			ballCount.push($(ele).find("div.base").text());
 			homeTeam.push($(ele).find("p.leftTeam strong.teamT").text());
@@ -79,10 +81,11 @@ getHtml()
 		});
 
 		return {
+			date,
 			homeTeam,
 			awayTeam,
 			inning, //일시적값 >> 업데이트 할것 (경기종료, 경기전 예외처리 )
-			score,
+			score, // 경기 시작전 점수 안나오는 부분 예외처리
 			baseState, //일시적값 >> 업데이트 할것 (빈배열은 시작전 또는 끝난뒤 / 예외처리)
 			ballCount, //일시적값 >> 업데이트 할것 ( - out은 시작전, 빈스트링은 끝난뒤 / 예외처리)
 			detailScore,
@@ -127,4 +130,7 @@ getHtml()
 		// 	B: "",
 		// };
 	})
-	.then((res) => console.log(res));
+	.then((res) => {
+		console.log(res);
+		const gameCount = res.homeTeam;
+	});
