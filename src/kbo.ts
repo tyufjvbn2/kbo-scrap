@@ -2,7 +2,7 @@ import axios from "axios";
 import cheerio from "cheerio";
 
 interface dynamicObj {
-	[key: number]: any;
+	[key: string]: any;
 }
 
 const getHtml = async () => {
@@ -50,13 +50,12 @@ getHtml()
 			$(ele)
 				.find(`div.base span`)
 				.each((j, el) => {
-					// console.log("show me j", j);
 					let baselive = $(el).find("img").attr("src");
 					if (baselive !== undefined) {
 						if (baselive === baseOn) {
-							testobj[i] = testbed.push(1);
+							testbed.push(1);
 						} else {
-							testobj[i] = testbed.push(0);
+							testbed.push(0);
 						}
 					}
 				});
@@ -69,7 +68,7 @@ getHtml()
 			score,
 			ballCount,
 			// baseState,
-			testobj,
+			testbed,
 			// totalBallCount,
 			// totalGameScore,
 		};
