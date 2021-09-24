@@ -32,11 +32,10 @@ getHtml()
 		let score: any[] = [];
 		let baseState: dynamicObj = {};
 		let ballCount: any[] = [];
-		let eachInningScore: dynamicObj = {};
+		let detailScore: dynamicObj = {};
+		let placeTime: any[] = [];
 
-		let testbed2: any[] = [];
-
-		let testObj: dynamicObj = {};
+		let testbed: any[] = [];
 
 		totalGameSet.each((i, ele) => {
 			ballCount.push($(ele).find("div.base").text());
@@ -63,72 +62,70 @@ getHtml()
 				});
 			baseState[i] = tempArr;
 
-			// const scoreObj = {
-			// 	1: "",
-			// 	2: "",
-			// 	3: "",
-			// 	4: "",
-			// 	5: "",
-			// 	6: "",
-			// 	7: "",
-			// 	8: "",
-			// 	9: "",
-			// 	10: "",
-			// 	11: "",
-			// 	12: "",
-			// 	R: "",
-			// 	H: "",
-			// 	E: "",
-			// 	B: "",
-			// };
-
 			let n: number = 0;
-
-			testObj[i] = { 0: [], 1: [] };
+			detailScore[i] = { 0: [], 1: [] };
 			while (n < 2) {
 				$(ele)
 					.find("table.tScore tbody tr")
 					.eq(n)
 					.children("td")
 					.each((j, el) => {
-						testObj[i][n].push($(el).text());
+						detailScore[i][n].push($(el).text());
 					});
 				n++;
 			}
 
-			//홈팀 점수만
-			// $(ele)
-			// 	.find("table.tScore tbody tr")
-			// 	.eq(0)
-			// 	.children("td")
-			// 	.each((j, el) => {
-			// 		// const colName = $(el).text()
-			// 		testbed.push($(el).text());
-			// 	});
-
-			//어웨이팀 점수만
-			// $(ele)
-			// 	.find("table.tScore tbody tr")
-			// 	.eq(1)
-			// 	.children("td")
-			// 	.each((j, el) => {
-			// 		// const colName = $(el).text()
-			// 		testbed2.push($(el).text());
-			// 	});
+			placeTime.push($(ele).find("p.place").text());
 		});
 
 		return {
 			homeTeam,
 			awayTeam,
-			inning,
+			inning, //일시적값 >> 업데이트 할것 (경기종료, 경기전 예외처리 )
 			score,
-			baseState,
-			ballCount,
-			testObj,
-			// testbed,
-			// testbed2,
+			baseState, //일시적값 >> 업데이트 할것 (빈배열은 시작전 또는 끝난뒤 / 예외처리)
+			ballCount, //일시적값 >> 업데이트 할것 ( - out은 시작전, 빈스트링은 끝난뒤 / 예외처리)
+			detailScore,
+			placeTime,
 		};
+		//홈팀 점수만
+		// $(ele)
+		// 	.find("table.tScore tbody tr")
+		// 	.eq(0)
+		// 	.children("td")
+		// 	.each((j, el) => {
+		// 		// const colName = $(el).text()
+		// 		testbed.push($(el).text());
+		// 	});
 
+		//어웨이팀 점수만
+		// $(ele)
+		// 	.find("table.tScore tbody tr")
+		// 	.eq(1)
+		// 	.children("td")
+		// 	.each((j, el) => {
+		// 		// const colName = $(el).text()
+		// 		testbed2.push($(el).text());
+		// 	});
+
+		// const scoreObj = {
+		// 	1: "",
+		// 	2: "",
+		// 	3: "",
+		// 	4: "",
+		// 	5: "",
+		// 	6: "",
+		// 	7: "",
+		// 	8: "",
+		// 	9: "",
+		// 	10: "",
+		// 	11: "",
+		// 	12: "",
+		// 	R: "",
+		// 	H: "",
+		// 	E: "",
+		// 	B: "",
+		// };
 		/*
 		let root: any[] = [];
 		let game: dynamicObj = {};
