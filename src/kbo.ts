@@ -126,58 +126,5 @@ getHtml()
 		// 	E: "",
 		// 	B: "",
 		// };
-		/*
-		let root: any[] = [];
-		let game: dynamicObj = {};
-		let base: any[] = [];
-		let onebasestate: any[] = [];
-		let totalballcount: any[] = [];
-		let test: any[] = [];
-		// let changeList: any[] = [];
-		// let ballList: any[] = [];
-		// let when: any[] = [];
-		// const bodyList = $("div.content_scroll").children("div.inner");
-		// const big = $(
-		// 	"div#cphContents_cphContents_cphContents_udpRecord"
-		// ).children("div.smsScore");
-
-
-		const game2base1 = $(
-			"div#cphContents_cphContents_cphContents_udpRecord div.smsScore div.score_wrap div.base span.base1"
-		).eq(1);
-		const sosmall = $(
-			"div#cphContents_cphContents_cphContents_udpRecord div.smsScore div.score_wrap div.base"
-		);
-
-		root.push($.root().html());
-		// const trimed = big.text().split("\n");
-		// console.log("trimed", trimed);
-
-		onebasestate.push(game2base1.find("img").attr("src"));
-
-		totalballcount.push(sosmall.text());
-		big.each((i, ele) => {
-			test[i] = {
-				data: $(this)
-					.find("div.score_wrap div.base span.base1 img")
-					.attr("src"),
-			};
-		});
-
-		game2base1.each((i, ele) => {
-			// console.log("why???");
-			const wanna = $(this).find("img").attr("src");
-
-			base.push(wanna);
-		});
-		
-		return {
-			game,
-			base,
-			totalballcount,
-			test,
-			onebasestate,
-		};
-		*/
 	})
 	.then((res) => console.log(res));
