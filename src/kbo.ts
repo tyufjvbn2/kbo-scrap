@@ -2,7 +2,7 @@ import axios from "axios";
 import cheerio from "cheerio";
 
 interface dynamicObj {
-	[key: string]: any;
+	[key: number]: any;
 }
 
 const getHtml = async () => {
@@ -23,24 +23,53 @@ getHtml()
 		).children("div.smsScore");
 		// console.log("length?", totalgameset.length);
 
+		const baseOn =
+			"//lgcxydabfbch3774324.cdn.ntruss.com/KBO_IMAGE/KBOHome/resources/images/common/base_on.png";
+
 		let homeTeam: any[] = [];
 		let awayTeam: any[] = [];
+		let inning: any[] = [];
 		let ballCount: any[] = [];
 		let score: any[] = [];
+		let baseState: any[] = [];
 
-		// let totalBallCount = $("div.smsScore div.base").text().split("out");
-		// let totalGameScore = $("div.smsScore em.score").text();
+		let testbed: any[] = [];
+		let testobj: dynamicObj = {};
 
 		totalGameSet.each((i, ele) => {
 			ballCount.push($(ele).find("div.base").text());
 			homeTeam.push($(ele).find("p.leftTeam strong.teamT").text());
 			awayTeam.push($(ele).find("p.rightTeam strong.teamT").text());
+			inning.push($(ele).find("strong.flag span").text());
+			score.push(
+				`${$(ele).find("p.leftTeam em.score").text()}-${$(ele)
+					.find("p.rightTeam em.score")
+					.text()}`
+			);
+			baseState.push($(ele).find("div.base span img").attr("src"));
+			$(ele)
+				.find(`div.base span`)
+				.each((j, el) => {
+					// console.log("show me j", j);
+					let baselive = $(el).find("img").attr("src");
+					if (baselive !== undefined) {
+						if (baselive === baseOn) {
+							testobj[i] = testbed.push(1);
+						} else {
+							testobj[i] = testbed.push(0);
+						}
+					}
+				});
 		});
 
 		return {
 			homeTeam,
 			awayTeam,
+			inning,
+			score,
 			ballCount,
+			// baseState,
+			testobj,
 			// totalBallCount,
 			// totalGameScore,
 		};
