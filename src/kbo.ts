@@ -1,12 +1,8 @@
 import axios from "axios";
 import cheerio from "cheerio";
 
-interface dynamicNumObj {
-	[key: number]: any;
-}
-
-interface dynamicStrObj {
-	[key: string]: any;
+interface dynamicObj {
+	[key: number | string]: any;
 }
 
 const getHtml = async () => {
@@ -33,12 +29,14 @@ getHtml()
 		let homeTeam: any[] = [];
 		let awayTeam: any[] = [];
 		let inning: any[] = [];
-		let ballCount: any[] = [];
 		let score: any[] = [];
-		let baseState: any[] = [];
+		let baseState: dynamicObj = {};
+		let ballCount: any[] = [];
+		let eachInningScore: dynamicObj = {};
 
-		let testbed: any[] = [];
-		let testobj: dynamicNumObj = {};
+		let testbed2: any[] = [];
+
+		let testObj: dynamicObj = {};
 
 		totalGameSet.each((i, ele) => {
 			ballCount.push($(ele).find("div.base").text());
@@ -50,21 +48,75 @@ getHtml()
 					.find("p.rightTeam em.score")
 					.text()}`
 			);
-			baseState.push($(ele).find("div.base span img").attr("src"));
-			let testbed2: any[] = [];
+			let tempArr: any[] = [];
 			$(ele)
-				.find(`div.base span`)
+				.find("div.base span")
 				.each((j, el) => {
 					let baselive = $(el).find("img").attr("src");
 					if (baselive !== undefined) {
 						if (baselive === baseOn) {
-							testbed2.push(1);
+							tempArr.push(1);
 						} else {
-							testbed2.push(0);
+							tempArr.push(0);
 						}
 					}
 				});
-			testobj[i] = testbed2;
+			baseState[i] = tempArr;
+
+			// const scoreObj = {
+			// 	1: "",
+			// 	2: "",
+			// 	3: "",
+			// 	4: "",
+			// 	5: "",
+			// 	6: "",
+			// 	7: "",
+			// 	8: "",
+			// 	9: "",
+			// 	10: "",
+			// 	11: "",
+			// 	12: "",
+			// 	R: "",
+			// 	H: "",
+			// 	E: "",
+			// 	B: "",
+			// };
+
+			let n: number = 0;
+
+			while (n < 2) {
+				let testbed: any[] = [];
+				$(ele)
+					.find("table.tScore tbody tr")
+					.eq(n)
+					.children("td")
+					.each((j, el) => {
+						// const colName = $(el).text()
+						testbed.push($(el).text());
+					});
+				n++;
+				testObj[i][n] = testbed;
+			}
+
+			//홈팀 점수만
+			// $(ele)
+			// 	.find("table.tScore tbody tr")
+			// 	.eq(0)
+			// 	.children("td")
+			// 	.each((j, el) => {
+			// 		// const colName = $(el).text()
+			// 		testbed.push($(el).text());
+			// 	});
+
+			//어웨이팀 점수만
+			// $(ele)
+			// 	.find("table.tScore tbody tr")
+			// 	.eq(1)
+			// 	.children("td")
+			// 	.each((j, el) => {
+			// 		// const colName = $(el).text()
+			// 		testbed2.push($(el).text());
+			// 	});
 		});
 
 		return {
@@ -72,11 +124,11 @@ getHtml()
 			awayTeam,
 			inning,
 			score,
+			baseState,
 			ballCount,
-			// baseState,
-			testobj,
-			// totalBallCount,
-			// totalGameScore,
+			testObj,
+			// testbed,
+			// testbed2,
 		};
 
 		/*
