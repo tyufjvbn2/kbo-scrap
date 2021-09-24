@@ -84,19 +84,15 @@ getHtml()
 
 			let n: number = 0;
 
+			testObj[i] = { 0: [], 1: [] };
 			while (n < 2) {
-				testObj[i] = { 0: [], 1: [] };
-				// let testObj2: dynamicObj = {};
-				// let testbed: any[] = [];
 				$(ele)
 					.find("table.tScore tbody tr")
 					.eq(n)
 					.children("td")
 					.each((j, el) => {
-						// const colName = $(el).text()
 						testObj[i][n].push($(el).text());
 					});
-				// testObj[i][n] = testbed;
 				n++;
 			}
 
