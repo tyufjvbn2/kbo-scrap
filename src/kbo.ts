@@ -125,13 +125,13 @@ getHtml()
 		} = res;
 		const gameCount = res.homeTeam.length;
 
-		for (let i = 0; i < gameCount; i++)
-			let dataMold = {
-				date: date,
-				time: "",
-				homeTeam: "",
-				awayTeam: "",
-			};
+		// for (let i = 0; i < gameCount; i++)
+		// 	let dataMold = {
+		// 		date: date,
+		// 		time: "",
+		// 		homeTeam: "",
+		// 		awayTeam: "",
+		// 	};
 
 		//이제 하나씩 뽑아서 atlas로 보낼거임
 	});
