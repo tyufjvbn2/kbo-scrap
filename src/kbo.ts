@@ -1,9 +1,29 @@
 import axios from "axios";
 import cheerio from "cheerio";
+import express from "express";
+
+const app = express();
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+const router = express.Router();
 
 interface dynamicObj {
 	[key: number | string]: any;
 }
+
+let dataSet: {
+	date: string;
+	homeTeam: any[];
+	awayTeam: any[];
+	inning: any[]; //일시적값 >> 업데이트 할것 (경기종료, 경기전 예외처리 )
+	score: any[]; // 경기 시작전 점수 안나오는 부분 예외처리
+	baseState: dynamicObj; //일시적값 >> 업데이트 할것 (빈배열은 시작전 또는 끝난뒤 / 예외처리)
+	ballCount: any[]; //일시적값 >> 업데이트 할것 ( - out은 시작전, 빈스트링은 끝난뒤 / 예외처리)
+	detailScore: dynamicObj;
+	placeTime: any[];
+};
 
 const getHtml = async () => {
 	try {
@@ -112,17 +132,27 @@ getHtml()
 	})
 	.then((res) => {
 		console.log(res);
+		dataSet = res;
 		const {
 			date,
 			homeTeam,
 			awayTeam,
+			placeTime,
 			inning,
 			score,
 			baseState,
 			ballCount,
 			detailScore,
-			placeTime,
 		} = res;
+		let totalGame = [];
+		const eachGame = {
+			date: date,
+			time: placeTime,
+			homeTeam: "hometeam",
+			awayTeam: "awayteam",
+			//이 아래서부터 계속 업데이트
+			inning: inning,
+		};
 		const gameCount = res.homeTeam.length;
 
 		// for (let i = 0; i < gameCount; i++)
@@ -135,3 +165,17 @@ getHtml()
 
 		//이제 하나씩 뽑아서 atlas로 보낼거임
 	});
+
+app.use(router);
+
+router.get("/", (req, res) => {
+	res.status(200).send("Scrap Server!!");
+});
+
+router.get("/data", (req, res) => {
+	res.status(200).json({ data: dataSet });
+});
+
+app.listen(3333, () => {
+	console.log("Data scraping servering is running");
+});
