@@ -27,6 +27,8 @@ export const create = (scrapData: any) => {
 			awayTeam: ele.awayTeam,
 		};
 
+		console.log("search key?", uniqueKey);
+
 		const newData = await Data.findOneAndUpdate(
 			uniqueKey,
 			{
@@ -34,8 +36,11 @@ export const create = (scrapData: any) => {
 				createdAt: new Date(),
 				updatedAt: new Date(),
 			},
-			{ upsert: true }
+			{
+				upsert: true,
+				returnOriginal: false,
+			}
 		);
-		console.log("each data?", newData);
+		// console.log("each data?", newData);
 	});
 };

@@ -3,7 +3,6 @@ import { run } from "./machine/scrap";
 import { create } from "./machine/create";
 import { update } from "./machine/update";
 import schedule from "node-schedule";
-import { data } from "cheerio/lib/api/attributes";
 // import { ScrapDataInterface } from "./interface/interface";
 
 // interface resDataStructure {
@@ -19,30 +18,28 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-function start() {
-	return new Promise((resolve, reject) => {
-		const data = run();
+let startTime;
+
+const start = () => {
+	return new Promise(async (resolve, reject) => {
+		const data = await run();
 
 		resolve(data);
 	});
-}
-
-let timeCheck;
+};
 
 //하루 한번만(날짜 바뀔때)
 // schedule.scheduleJob("0 0 0 * * *", () => {
 start().then((data: any) => {
+	console.log("your shape?", data);
 	create(data.totalGame);
-	console.log("placeTime?", data.placeTime);
-	let trimmed = data.placeTime.map((el) => {
-		return el.split(" ")[1];
-	});
-	console.log("trimmed?", trimmed);
+	console.log("start time?", data.startTime);
+	startTime = data.startTime;
 });
 // });
 
 //경기 시작 30분 전부터 끝나고 30분 후까지 계속
-schedule.scheduleJob("0 0 15 * * *", () => {
+schedule.scheduleJob("0 2 10 * * *", () => {
 	start().then((data: any) => {
 		setInterval(() => {
 			update(data.totalGame);
