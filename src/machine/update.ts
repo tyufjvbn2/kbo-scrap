@@ -16,6 +16,7 @@ export const update = (scrapData: ScrapDataInterface[]) => {
 				inning: ele.inning,
 				score: ele.score,
 				detailScore: ele.detailScore,
+				updatedAt: new Date(new Date().getTime() + 9 * 60 * 60 * 1000),
 			});
 			console.log("end target?", target);
 		} else if (ele.inning !== "경기전") {
@@ -25,6 +26,7 @@ export const update = (scrapData: ScrapDataInterface[]) => {
 				baseState: ele.baseState,
 				ballCount: ele.ballCount,
 				detailScore: ele.detailScore,
+				updatedAt: new Date(new Date().getTime() + 9 * 60 * 60 * 1000),
 			});
 			console.log("ongoin target?", target);
 		}

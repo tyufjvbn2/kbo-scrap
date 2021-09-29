@@ -16,17 +16,16 @@ try {
 
 	let startTime: string[] = [];
 
-	const start = () => {
+	function scrap() {
 		return new Promise<resDataStructure>(async (resolve, reject) => {
-			const data = await run();
+			let data = await run();
 
 			resolve(data);
 		});
-	};
+	}
 
-	//하루 한번만 실행(날짜 바뀔때)
-	schedule.scheduleJob("0 0 0 * * *", () => {
-		start().then((data: resDataStructure) => {
+	function init() {
+		scrap().then((data: resDataStructure) => {
 			console.log("your shape?", data);
 			create(data.totalGame);
 			console.log("start time?", data.startTime);
@@ -34,36 +33,69 @@ try {
 
 			console.log("checker?", data.gameChecker);
 		});
+	}
+
+	//하루 한번만 실행(날짜 바뀔때) 또는 실행시 바로 실행
+	init();
+	schedule.scheduleJob("0 0 0 * * *", () => {
+		init();
 	});
 
 	const updater = () => {
 		//시작시간을 catch하지 못한경우
 		if (startTime.length === 0) {
 			console.error("We failed to catch time of game start");
-			start().then((data: resDataStructure) => {
+			scrap().then((data: resDataStructure) => {
 				console.log("Trying to catch time...");
 				startTime = data.startTime.split(":");
 				return updater();
 			});
 		} else {
 			console.log("We catch game start time. It will be start on time");
-			//지정된 경기 시작시간에 start, 모든 경기 끝나는 순간 end
-			schedule.scheduleJob(
-				`0 ${startTime[1]} ${startTime[0]} * * *`,
-				() => {
-					start().then((data: resDataStructure) => {
-						//종료할건지 계속 체크해야 함
-						const repeat = setInterval(() => {
-							if (data.gameChecker !== data.totalGame.length) {
-								update(data.totalGame);
-							} else {
-								console.log("All game end");
-								clearInterval(repeat);
-							}
-						}, 8000);
-					});
-				}
-			);
+
+			//현재시간 확인
+			let currentTime = new Date()
+				.toString()
+				.split(" ")[4]
+				.slice(0, 5)
+				.split(":");
+
+			let trimmedStartTime = Number(startTime.join(""));
+			let trimmedCurrentTime = Number(currentTime.join(""));
+
+			console.log("time done");
+
+			const repeater = () => {
+				scrap().then((data: resDataStructure) => {
+					//종료할건지 계속 체크해야 함
+					const repeat = setInterval(() => {
+						//아직 진행중인 경기가 있을때
+						if (data.gameChecker !== data.totalGame.length) {
+							update(data.totalGame);
+						} else {
+							//모든 경기 종료시
+							console.log("All game end");
+							clearInterval(repeat);
+						}
+					}, 5000);
+				});
+			};
+
+			console.log("check point");
+			console.log("current", trimmedCurrentTime);
+			console.log("plan", trimmedStartTime);
+
+			//경기 시작시간보다 서버 늦게 켜진 경우
+			if (trimmedStartTime <= trimmedCurrentTime) {
+				repeater();
+			} else {
+				//경기 시작시간보다 미리 켠 경우
+				//지정된 경기 시작시간에 start, 모든 경기 끝나는 순간 end
+				schedule.scheduleJob(
+					`0 ${startTime[1]} ${startTime[0]} * * *`,
+					repeater
+				);
+			}
 		}
 	};
 

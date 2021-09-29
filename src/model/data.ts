@@ -28,7 +28,7 @@ const Schema = mongoose.Schema;
 
 const dataSchema = new Schema(
 	{
-		date: Date,
+		date: String,
 		placeTime: String,
 		homeTeam: String,
 		awayTeam: String,

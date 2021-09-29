@@ -17,8 +17,8 @@ export const create = (scrapData: ScrapDataInterface[]) => {
 			uniqueKey,
 			{
 				...ele,
-				createdAt: new Date(),
-				updatedAt: new Date(),
+				createdAt: new Date(new Date().getTime() + 9 * 60 * 60 * 1000),
+				updatedAt: new Date(new Date().getTime() + 9 * 60 * 60 * 1000),
 			},
 			{
 				upsert: true,
