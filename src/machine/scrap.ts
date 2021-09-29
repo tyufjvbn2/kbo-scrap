@@ -1,8 +1,8 @@
 import axios from "axios";
 import cheerio from "cheerio";
 const Data = require("../model/data");
-// import { create } from "./create";
-// import { update } from "./update"
+import { resDataStructure } from "../interface/interface";
+import { ScrapDataInterface } from "../interface/interface";
 
 export const run = () => {
 	interface dynamicObj {
@@ -21,7 +21,7 @@ export const run = () => {
 	// 	placeTime?: any[];
 	// }
 
-	let totalGame: any[] = [];
+	let totalGame: ScrapDataInterface[] = [];
 
 	const getHtml = async () => {
 		try {

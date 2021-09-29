@@ -1,23 +1,7 @@
 const Data = require("../model/data");
-// import { ScrapDataInterface } from "../interface/interface";
-// import { ObjectId } from "mongoose";
+import { ScrapDataInterface } from "../interface/interface";
 
-// interface ScrapDataInterface {
-// 	_id: ObjectId;
-// 	date: Date;
-// 	placeTime: string;
-// 	homeTeam: string;
-// 	awayTeam: string;
-// 	inning: string;
-// 	score: string;
-// 	baseState: [number | undefined];
-// 	ballCount: string;
-// 	detailScore: object;
-// 	createdAt: Date;
-// 	updatedAt: Date;
-// }
-
-export const create = (scrapData: any) => {
+export const create = (scrapData: ScrapDataInterface[]) => {
 	console.log("create come?", scrapData);
 	scrapData.forEach(async (ele: any) => {
 		const uniqueKey = {

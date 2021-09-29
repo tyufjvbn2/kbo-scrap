@@ -1,8 +1,8 @@
 import { ObjectId } from "mongoose";
 
 export interface ScrapDataInterface {
-	_id: ObjectId;
-	date: Date;
+	_id?: ObjectId;
+	date: string;
 	placeTime: string;
 	homeTeam: string;
 	awayTeam: string;
@@ -11,6 +11,12 @@ export interface ScrapDataInterface {
 	baseState: [number | undefined];
 	ballCount: string;
 	detailScore: object;
-	createdAt: Date;
-	updatedAt: Date;
+	createdAt?: Date;
+	updatedAt?: Date;
+}
+
+export interface resDataStructure {
+	totalGame: object;
+	placeTime: string;
+	gameChecker: number;
 }
