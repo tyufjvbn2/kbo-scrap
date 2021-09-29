@@ -65,21 +65,19 @@ try {
 
 			console.log("time done");
 
-			const repeater = () => {
+			const repeater = setInterval(() => {
+				//종료할건지 계속 체크해야 함
 				scrap().then((data: resDataStructure) => {
-					//종료할건지 계속 체크해야 함
-					const repeat = setInterval(() => {
-						//아직 진행중인 경기가 있을때
-						if (data.gameChecker !== data.totalGame.length) {
-							update(data.totalGame);
-						} else {
-							//모든 경기 종료시
-							console.log("All game end");
-							clearInterval(repeat);
-						}
-					}, 5000);
+					//아직 진행중인 경기가 있을때
+					if (data.gameChecker !== data.totalGame.length) {
+						update(data.totalGame);
+					} else {
+						//모든 경기 종료시
+						console.log("All game end");
+						clearInterval(repeater);
+					}
 				});
-			};
+			}, 5000);
 
 			console.log("check point");
 			console.log("current", trimmedCurrentTime);
@@ -87,13 +85,13 @@ try {
 
 			//경기 시작시간보다 서버 늦게 켜진 경우
 			if (trimmedStartTime <= trimmedCurrentTime) {
-				repeater();
+				repeater;
 			} else {
 				//경기 시작시간보다 미리 켠 경우
 				//지정된 경기 시작시간에 start, 모든 경기 끝나는 순간 end
 				schedule.scheduleJob(
 					`0 ${startTime[1]} ${startTime[0]} * * *`,
-					repeater
+					() => repeater
 				);
 			}
 		}
