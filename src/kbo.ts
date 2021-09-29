@@ -18,7 +18,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-let startTime;
+let startTime = [];
 
 const start = () => {
 	return new Promise(async (resolve, reject) => {
@@ -34,38 +34,31 @@ start().then((data: any) => {
 	console.log("your shape?", data);
 	create(data.totalGame);
 	console.log("start time?", data.startTime);
-	startTime = data.startTime;
+	startTime = data.startTime.split(":");
+
+	console.log("checker?", data.gameChecker);
 });
 // });
 
-//경기 시작 30분 전부터 끝나고 30분 후까지 계속
-schedule.scheduleJob("0 2 10 * * *", () => {
-	start().then((data: any) => {
-		setInterval(() => {
-			update(data.totalGame);
-		}, 8000);
+//시작시간을 catch하지 못한경우
+if (startTime.length === 0) {
+	console.error("We failed to catch time of game start");
+} else {
+	//경기 시작 30분 전부터 끝나고 30분 후까지 계속
+	schedule.scheduleJob(`0 ${startTime[1]} ${startTime[0]} * * *`, () => {
+		start().then((data: any) => {
+			//종료할건지 계속 체크해야 함
+			const repeat = setInterval(() => {
+				if (data.gameChecker !== data.totalGame.length) {
+					update(data.totalGame);
+				} else {
+					console.log("All game end");
+					clearInterval(repeat);
+				}
+			}, 8000);
+		});
 	});
-});
-
-// run();
-// const work = async () => {
-// 	//스크래핑 데이터
-// 	const data = run();
-
-// 	console.log("start");
-
-// 	setTimeout(() => {
-// 		create(data);
-// 	}, 5000);
-// 	//db에 초기값 생성
-
-// 	//경기 시작 후에 값 찍기 시작
-// 	await update(data);
-
-// 	console.log("end");
-// };
-
-// work();
+}
 
 const router = express.Router();
 

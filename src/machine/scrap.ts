@@ -200,7 +200,18 @@ export const run = () => {
 					.sort()[0];
 				console.log("time?", earlyTime);
 
-				return { totalGame: totalGame, startTime: earlyTime };
+				let gameCheker = res.inning.reduce((acc, el) => {
+					if (el === "경기종료") {
+						acc++;
+					}
+					return acc;
+				}, 0);
+
+				return {
+					totalGame: totalGame,
+					startTime: earlyTime,
+					gameChecker: gameCheker,
+				};
 			});
 
 		resolve(data);
