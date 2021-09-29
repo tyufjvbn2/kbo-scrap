@@ -2,8 +2,8 @@ const Data = require("../model/data");
 import { ScrapDataInterface } from "../interface/interface";
 
 export const create = (scrapData: ScrapDataInterface[]) => {
-	console.log("create come?", scrapData);
-	scrapData.forEach(async (ele: any) => {
+	console.log("data come?", scrapData);
+	scrapData.forEach(async (ele) => {
 		const uniqueKey = {
 			date: ele.date,
 			placeTime: ele.placeTime,
@@ -11,7 +11,7 @@ export const create = (scrapData: ScrapDataInterface[]) => {
 			awayTeam: ele.awayTeam,
 		};
 
-		console.log("search key?", uniqueKey);
+		console.log("unique key?", uniqueKey);
 
 		const newData = await Data.findOneAndUpdate(
 			uniqueKey,

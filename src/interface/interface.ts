@@ -16,7 +16,7 @@ export interface ScrapDataInterface {
 }
 
 export interface resDataStructure {
-	totalGame: object;
-	placeTime: string;
+	totalGame: ScrapDataInterface[];
+	startTime: string;
 	gameChecker: number;
 }

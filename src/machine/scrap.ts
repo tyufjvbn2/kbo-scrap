@@ -33,7 +33,7 @@ export const run = () => {
 		}
 	};
 
-	return new Promise(async (resolve, reject) => {
+	return new Promise<resDataStructure>(async (resolve, reject) => {
 		const data = getHtml()
 			.then((html: any) => {
 				const $ = cheerio.load(html.data);
@@ -44,16 +44,16 @@ export const run = () => {
 				const baseOn =
 					"//lgcxydabfbch3774324.cdn.ntruss.com/KBO_IMAGE/KBOHome/resources/images/common/base_on.png";
 
-				let homeTeam: any[] = [];
-				let awayTeam: any[] = [];
-				let inning: any[] = [];
-				let score: any[] = [];
+				let homeTeam: string[] = [];
+				let awayTeam: string[] = [];
+				let inning: string[] = [];
+				let score: string[] = [];
 				let baseState: dynamicObj = {};
-				let ballCount: any[] = [];
+				let ballCount: string[] = [];
 				let detailScore: dynamicObj = {};
-				let placeTime: any[] = [];
+				let placeTime: string[] = [];
 
-				let testbed: any[] = [];
+				// let testbed: any[] = [];
 
 				const date = $("ul.date li.today span.date-txt").text();
 
@@ -71,7 +71,7 @@ export const run = () => {
 							.find("p.rightTeam em.score")
 							.text()}`
 					);
-					let tempArr: any[] = [];
+					let tempArr: number[] = [];
 					$(ele)
 						.find("div.base span")
 						.each((j, el) => {
@@ -139,12 +139,12 @@ export const run = () => {
 						score: score[i] === "-" ? "0-0" : score[i],
 						baseState:
 							baseState[i].length === 0
-								? "dont update"
+								? [0, 0, 0] //경기 종료후 베이스 초기화
 								: baseState[i],
 
 						ballCount:
 							ballCount[i] === "- out" || ""
-								? "0-0 0out"
+								? "0-0 0out" //경기 시작전 볼카운트 초기화
 								: ballCount[i],
 						detailScore: {
 							home: {
@@ -189,16 +189,16 @@ export const run = () => {
 				}
 				console.log("total recall?", totalGame);
 
-				//이제 하나씩 뽑아서 atlas로 보낼거임
+				//이제 하나씩 뽑아서 atlas로 보내기
 
-				console.log("why???", res.placeTime);
+				console.log("game schedule?", res.placeTime);
 
 				let earlyTime = res.placeTime
 					.map((el) => {
 						return el.split(" ")[1];
 					})
 					.sort()[0];
-				console.log("time?", earlyTime);
+				console.log("most early time?", earlyTime);
 
 				let gameCheker = res.inning.reduce((acc, el) => {
 					if (el === "경기종료") {

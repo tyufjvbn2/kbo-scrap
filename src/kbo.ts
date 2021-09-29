@@ -5,6 +5,7 @@ import { update } from "./machine/update";
 import schedule from "node-schedule";
 const mongooseConfig = require("./config/config");
 // import { ScrapDataInterface } from "./interface/interface";
+import { resDataStructure } from "./interface/interface";
 
 try {
 	mongooseConfig();
@@ -16,7 +17,7 @@ try {
 	let startTime: string[] = [];
 
 	const start = () => {
-		return new Promise(async (resolve, reject) => {
+		return new Promise<resDataStructure>(async (resolve, reject) => {
 			const data = await run();
 
 			resolve(data);
@@ -25,7 +26,7 @@ try {
 
 	//하루 한번만 실행(날짜 바뀔때)
 	schedule.scheduleJob("0 0 0 * * *", () => {
-		start().then((data) => {
+		start().then((data: resDataStructure) => {
 			console.log("your shape?", data);
 			create(data.totalGame);
 			console.log("start time?", data.startTime);
@@ -39,7 +40,7 @@ try {
 		//시작시간을 catch하지 못한경우
 		if (startTime.length === 0) {
 			console.error("We failed to catch time of game start");
-			start().then((data: any) => {
+			start().then((data: resDataStructure) => {
 				console.log("Trying to catch time...");
 				startTime = data.startTime.split(":");
 				return updater();
@@ -50,7 +51,7 @@ try {
 			schedule.scheduleJob(
 				`0 ${startTime[1]} ${startTime[0]} * * *`,
 				() => {
-					start().then((data: any) => {
+					start().then((data: resDataStructure) => {
 						//종료할건지 계속 체크해야 함
 						const repeat = setInterval(() => {
 							if (data.gameChecker !== data.totalGame.length) {
