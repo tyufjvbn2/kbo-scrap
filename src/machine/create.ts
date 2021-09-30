@@ -1,13 +1,15 @@
 const Data = require("../model/data");
 import { timeChanger } from "./timechange";
-import { ScrapDataInterface } from "../interface/interface";
+import { newScrapDataInterface } from "../interface/interface";
 
-export const create = (scrapData: ScrapDataInterface[]) => {
+export const create = (scrapData: newScrapDataInterface[]) => {
 	console.log("data come?", scrapData);
 	scrapData.forEach(async (ele) => {
 		const uniqueKey = {
-			date: timeChanger(ele.date.split("(")[0]),
-			placeTime: ele.placeTime,
+			date: ele.date,
+			place: ele.place,
+			time: ele.time,
+			// placeTime: ele.placeTime,
 			homeTeam: ele.homeTeam,
 			awayTeam: ele.awayTeam,
 		};
@@ -18,7 +20,6 @@ export const create = (scrapData: ScrapDataInterface[]) => {
 			uniqueKey,
 			{
 				...ele,
-				date: timeChanger(ele.date.split("(")[0]),
 				createdAt: timeChanger(new Date()),
 				updatedAt: timeChanger(new Date()),
 			},

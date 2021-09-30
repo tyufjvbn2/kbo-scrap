@@ -1,7 +1,7 @@
 import axios from "axios";
 import cheerio from "cheerio";
 import { resDataStructure } from "../interface/interface";
-import { ScrapDataInterface } from "../interface/interface";
+import { newScrapDataInterface } from "../interface/interface";
 import { timeChanger } from "./timechange";
 
 export const run = () => {
@@ -23,7 +23,7 @@ export const run = () => {
 	// 	placeTime?: any[];
 	// }
 
-	let totalGame: ScrapDataInterface[] = [];
+	let totalGame: newScrapDataInterface[] = [];
 
 	const getHtml = async () => {
 		try {
@@ -128,76 +128,99 @@ export const run = () => {
 					score,
 					baseState,
 					ballCount,
-					detailScore,
+					// detailScore,
 				} = res;
 
 				for (let i = 0; i < homeTeam.length; i++) {
+
+					let eachRound
+					let eachQuarter = 0
+
+					if(inning[i] === "경기전"){
+						eachRound = -1
+						eachQuarter = -1
+					}
+					else if(inning[i] === "경기종료") {
+						eachRound = 100
+						eachQuarter = 100
+					}
+					else {
+						eachRound = Number(inning[i].replace(regex,""))
+						if(inning[i].slice(-1) === "초") {
+							eachQuarter = 1
+						}
+						else if(inning[i].slice(-1) === "말") {
+							eachQuarter = 2
+						}
+					}
+
 					const eachGame = {
 						date: timeChanger(date),
 						place: placeTime[i].split(" ")[0],
 						time: placeTime[i].split(" ")[1],
 						// placeTime: placeTime[i],
-						homeTeam: {
-							name: homeTeam[i],
-							score:
-								score[i] === "-" ? 0 : score[i].split("-")[0],
-						},
-						awayTeam: {
-							name: awayTeam[i],
-							score:
-								score[i] === "-" ? 0 : score[i].split("-")[1],
-						},
+						homeTeam: homeTeam[i],	
+						homeTeamScore: score[i] === "-" ? 0 : Number(score[i].split("-")[0]),
+						awayTeam: awayTeam[i],
+						awayTeamScore: score[i] === "-" ? 0 : Number(score[i].split("-")[1]),
+						//inning[i].slice(-1) === "초" ? 1 : 2
 						// --------  여기서부터 수정하면 됨  -------------- //
-						// presentRound:inning[i].replace(re),
+						presentRound: eachRound,  //시작전 -1, 종료 100, 나머지는 해당 회의 숫자
+						presentQuarter: eachQuarter,  // 경기전 -1, 경기종료 100, 초 1, 말 2
 						// inning: inning[i],
-						score: score[i] === "-" ? "0-0" : score[i],
-						baseState:
+						// score: score[i] === "-" ? "0-0" : score[i],
+						baseStatus:
 							baseState[i].length === 0
-								? [0, 0, 0] //경기 종료후 베이스 초기화
-								: baseState[i],
+								? "000" //경기 종료후 베이스 초기화
+								: baseState[i].join(""),
 
-						ballCount:
-							ballCount[i] === "- out" || ""
-								? "0-0 0out" //경기 시작전 볼카운트 초기화
-								: ballCount[i],
-						detailScore: {
-							home: {
-								1: detailScore[i][0][0],
-								2: detailScore[i][0][1],
-								3: detailScore[i][0][2],
-								4: detailScore[i][0][3],
-								5: detailScore[i][0][4],
-								6: detailScore[i][0][5],
-								7: detailScore[i][0][6],
-								8: detailScore[i][0][7],
-								9: detailScore[i][0][8],
-								10: detailScore[i][0][9],
-								11: detailScore[i][0][10],
-								12: detailScore[i][0][11],
-								R: detailScore[i][0][12],
-								E: detailScore[i][0][13],
-								H: detailScore[i][0][14],
-								B: detailScore[i][0][15],
-							},
-							away: {
-								1: detailScore[i][1][0],
-								2: detailScore[i][1][1],
-								3: detailScore[i][1][2],
-								4: detailScore[i][1][3],
-								5: detailScore[i][1][4],
-								6: detailScore[i][1][5],
-								7: detailScore[i][1][6],
-								8: detailScore[i][1][7],
-								9: detailScore[i][1][8],
-								10: detailScore[i][1][9],
-								11: detailScore[i][1][10],
-								12: detailScore[i][1][11],
-								R: detailScore[i][1][12],
-								E: detailScore[i][1][13],
-								H: detailScore[i][1][14],
-								B: detailScore[i][1][15],
-							},
+						etc: {
+							ball: ballCount[i] === "- out" || "" ? 0 : Number(ballCount[i].split("-")[0]),
+							strike: ballCount[i] === "- out" || "" ? 0 : Number(ballCount[i].split("-")[1].split(" ")[0]),
+							out: ballCount[i] === "- out" || "" ? 0 : Number(ballCount[i].split("-")[1].split(" ")[1].replace(regex, ""))
 						},
+						// ballCount:
+						// 	ballCount[i] === "- out" || ""
+						// 		? "0-0 0out" //경기 시작전 볼카운트 초기화
+						// 		: ballCount[i],
+						// detailScore: {
+						// 	home: {
+						// 		1: detailScore[i][0][0],
+						// 		2: detailScore[i][0][1],
+						// 		3: detailScore[i][0][2],
+						// 		4: detailScore[i][0][3],
+						// 		5: detailScore[i][0][4],
+						// 		6: detailScore[i][0][5],
+						// 		7: detailScore[i][0][6],
+						// 		8: detailScore[i][0][7],
+						// 		9: detailScore[i][0][8],
+						// 		10: detailScore[i][0][9],
+						// 		11: detailScore[i][0][10],
+						// 		12: detailScore[i][0][11],
+						// 		R: detailScore[i][0][12],
+						// 		E: detailScore[i][0][13],
+						// 		H: detailScore[i][0][14],
+						// 		B: detailScore[i][0][15],
+						// 	},
+						// 	away: {
+						// 		1: detailScore[i][1][0],
+						// 		2: detailScore[i][1][1],
+						// 		3: detailScore[i][1][2],
+						// 		4: detailScore[i][1][3],
+						// 		5: detailScore[i][1][4],
+						// 		6: detailScore[i][1][5],
+						// 		7: detailScore[i][1][6],
+						// 		8: detailScore[i][1][7],
+						// 		9: detailScore[i][1][8],
+						// 		10: detailScore[i][1][9],
+						// 		11: detailScore[i][1][10],
+						// 		12: detailScore[i][1][11],
+						// 		R: detailScore[i][1][12],
+						// 		E: detailScore[i][1][13],
+						// 		H: detailScore[i][1][14],
+						// 		B: detailScore[i][1][15],
+						// 	},
+						// },
 					};
 					totalGame.push(eachGame);
 				}

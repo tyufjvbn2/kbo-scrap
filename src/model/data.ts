@@ -26,17 +26,36 @@ const Schema = mongoose.Schema;
 // 	away: scoreBoard;
 // }
 
+// const oldDataSchema = new Schema(
+// 	{
+// 		date: Date,
+// 		placeTime: String,
+// 		homeTeam: String,
+// 		awayTeam: String,
+// 		inning: String,
+// 		score: String,
+// 		baseState: [Number],
+// 		ballCount: String,
+// 		detailScore: Object,
+// 		createdAt: Date,
+// 		updatedAt: Date,
+// 	},
+// 	{ versionKey: false }
+// );
+
 const dataSchema = new Schema(
 	{
 		date: Date,
-		placeTime: String,
+		place: String,
+		time: String,
 		homeTeam: String,
 		awayTeam: String,
-		inning: String,
-		score: String,
-		baseState: [Number],
-		ballCount: String,
-		detailScore: Object,
+		homeTeamScore: Number,
+		awayTeamScore: Number,
+		presentRound: Number,
+		presentQuarter: Number,
+		baseStatus: String,
+		etc: Object,
 		createdAt: Date,
 		updatedAt: Date,
 	},
