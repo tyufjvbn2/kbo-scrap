@@ -1,11 +1,12 @@
 import express from "express";
+import schedule from "node-schedule";
 import { run } from "./machine/scrap";
 import { create } from "./machine/create";
-import { update } from "./machine/update";
-import schedule from "node-schedule";
-const mongooseConfig = require("./config/config");
+// import { update } from "./machine/update";
+import { repeater } from "./machine/repeat";
 // import { ScrapDataInterface } from "./interface/interface";
 import { resDataStructure } from "./interface/interface";
+const mongooseConfig = require("./config/config");
 
 try {
 	mongooseConfig();
@@ -35,13 +36,14 @@ try {
 		});
 	}
 
-	//하루 한번만 실행(날짜 바뀔때) 또는 실행시 바로 실행
+	//하루 한번만 실행(날짜 바뀔때) 또는 서버 실행시 바로 실행
 	init();
 	schedule.scheduleJob("0 0 0 * * *", () => {
 		init();
 	});
 
 	const updater = () => {
+		console.log("normal updater");
 		//시작시간을 catch하지 못한경우
 		if (startTime.length === 0) {
 			console.error("We failed to catch time of game start");
@@ -65,33 +67,24 @@ try {
 
 			console.log("time done");
 
-			const repeater = setInterval(() => {
-				//종료할건지 계속 체크해야 함
-				scrap().then((data: resDataStructure) => {
-					//아직 진행중인 경기가 있을때
-					if (data.gameChecker !== data.totalGame.length) {
-						update(data.totalGame);
-					} else {
-						//모든 경기 종료시
-						console.log("All game end");
-						clearInterval(repeater);
-					}
-				});
-			}, 5000);
-
 			console.log("check point");
 			console.log("current", trimmedCurrentTime);
 			console.log("plan", trimmedStartTime);
 
 			//경기 시작시간보다 서버 늦게 켜진 경우
 			if (trimmedStartTime <= trimmedCurrentTime) {
-				repeater;
-			} else {
+				console.log("too late");
+				//반복실행
+				// repeat;
+				repeater();
+				console.log("too late end");
+			} else if (trimmedStartTime > trimmedCurrentTime) {
+				console.log("not yet");
 				//경기 시작시간보다 미리 켠 경우
 				//지정된 경기 시작시간에 start, 모든 경기 끝나는 순간 end
 				schedule.scheduleJob(
 					`0 ${startTime[1]} ${startTime[0]} * * *`,
-					() => repeater
+					repeater
 				);
 			}
 		}
