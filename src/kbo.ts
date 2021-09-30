@@ -90,7 +90,7 @@ try {
 		}
 	};
 
-	updater();
+	// updater();
 
 	const router = express.Router();
 

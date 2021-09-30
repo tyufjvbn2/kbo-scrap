@@ -1,13 +1,15 @@
 import axios from "axios";
 import cheerio from "cheerio";
-const Data = require("../model/data");
 import { resDataStructure } from "../interface/interface";
 import { ScrapDataInterface } from "../interface/interface";
+import { timeChanger } from "./timechange";
 
 export const run = () => {
 	interface dynamicObj {
 		[key: number | string]: any;
 	}
+
+	const regex = /[^0-9]/g;
 
 	// interface DataStructure {
 	// 	date?: string;
@@ -131,11 +133,23 @@ export const run = () => {
 
 				for (let i = 0; i < homeTeam.length; i++) {
 					const eachGame = {
-						date: date,
-						placeTime: placeTime[i],
-						homeTeam: homeTeam[i],
-						awayTeam: awayTeam[i],
-						inning: inning[i],
+						date: timeChanger(date),
+						place: placeTime[i].split(" ")[0],
+						time: placeTime[i].split(" ")[1],
+						// placeTime: placeTime[i],
+						homeTeam: {
+							name: homeTeam[i],
+							score:
+								score[i] === "-" ? 0 : score[i].split("-")[0],
+						},
+						awayTeam: {
+							name: awayTeam[i],
+							score:
+								score[i] === "-" ? 0 : score[i].split("-")[1],
+						},
+						// --------  여기서부터 수정하면 됨  -------------- //
+						// presentRound:inning[i].replace(re),
+						// inning: inning[i],
 						score: score[i] === "-" ? "0-0" : score[i],
 						baseState:
 							baseState[i].length === 0
