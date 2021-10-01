@@ -56,6 +56,7 @@ const dataSchema = new Schema(
 		presentQuarter: Number,
 		baseStatus: String,
 		etc: Object,
+		url: String,
 		createdAt: Date,
 		updatedAt: Date,
 	},
