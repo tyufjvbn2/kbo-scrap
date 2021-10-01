@@ -132,25 +132,21 @@ export const run = () => {
 				} = res;
 
 				for (let i = 0; i < homeTeam.length; i++) {
+					let eachRound;
+					let eachQuarter = 0;
 
-					let eachRound
-					let eachQuarter = 0
-
-					if(inning[i] === "경기전"){
-						eachRound = -1
-						eachQuarter = -1
-					}
-					else if(inning[i] === "경기종료") {
-						eachRound = 100
-						eachQuarter = 100
-					}
-					else {
-						eachRound = Number(inning[i].replace(regex,""))
-						if(inning[i].slice(-1) === "초") {
-							eachQuarter = 1
-						}
-						else if(inning[i].slice(-1) === "말") {
-							eachQuarter = 2
+					if (inning[i] === "경기전") {
+						eachRound = -1;
+						eachQuarter = -1;
+					} else if (inning[i] === "경기종료") {
+						eachRound = 100;
+						eachQuarter = 100;
+					} else {
+						eachRound = Number(inning[i].replace(regex, ""));
+						if (inning[i].slice(-1) === "초") {
+							eachQuarter = 1;
+						} else if (inning[i].slice(-1) === "말") {
+							eachQuarter = 2;
 						}
 					}
 
@@ -159,14 +155,20 @@ export const run = () => {
 						place: placeTime[i].split(" ")[0],
 						time: placeTime[i].split(" ")[1],
 						// placeTime: placeTime[i],
-						homeTeam: homeTeam[i],	
-						homeTeamScore: score[i] === "-" ? 0 : Number(score[i].split("-")[0]),
+						homeTeam: homeTeam[i],
+						homeTeamScore:
+							score[i] === "-"
+								? 0
+								: Number(score[i].split("-")[0]),
 						awayTeam: awayTeam[i],
-						awayTeamScore: score[i] === "-" ? 0 : Number(score[i].split("-")[1]),
+						awayTeamScore:
+							score[i] === "-"
+								? 0
+								: Number(score[i].split("-")[1]),
 						//inning[i].slice(-1) === "초" ? 1 : 2
 						// --------  여기서부터 수정하면 됨  -------------- //
-						presentRound: eachRound,  //시작전 -1, 종료 100, 나머지는 해당 회의 숫자
-						presentQuarter: eachQuarter,  // 경기전 -1, 경기종료 100, 초 1, 말 2
+						presentRound: eachRound, //시작전 -1, 종료 100, 나머지는 해당 회의 숫자
+						presentQuarter: eachQuarter, // 경기전 -1, 경기종료 100, 초 1, 말 2
 						// inning: inning[i],
 						// score: score[i] === "-" ? "0-0" : score[i],
 						baseStatus:
@@ -175,9 +177,27 @@ export const run = () => {
 								: baseState[i].join(""),
 
 						etc: {
-							ball: ballCount[i] === "- out" || "" ? 0 : Number(ballCount[i].split("-")[0]),
-							strike: ballCount[i] === "- out" || "" ? 0 : Number(ballCount[i].split("-")[1].split(" ")[0]),
-							out: ballCount[i] === "- out" || "" ? 0 : Number(ballCount[i].split("-")[1].split(" ")[1].replace(regex, ""))
+							ball:
+								ballCount[i] === "- out" || ballCount[i] === ""
+									? 0
+									: Number(ballCount[i].split("-")[0]),
+							strike:
+								ballCount[i] === "- out" || ballCount[i] === ""
+									? 0
+									: Number(
+											ballCount[i]
+												.split("-")[1]
+												.split(" ")[0]
+									  ),
+							out:
+								ballCount[i] === "- out" || ballCount[i] === ""
+									? 0
+									: Number(
+											ballCount[i]
+												.split("-")[1]
+												.split(" ")[1]
+												.replace(regex, "")
+									  ),
 						},
 						// ballCount:
 						// 	ballCount[i] === "- out" || ""
