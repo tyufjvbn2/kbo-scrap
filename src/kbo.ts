@@ -35,13 +35,6 @@ try {
 			console.log("checker?", data.gameChecker);
 		});
 	}
-
-	//하루 한번만 실행(날짜 바뀔때) 또는 서버 실행시 바로 실행
-	init();
-	schedule.scheduleJob("0 0 0 * * *", () => {
-		init();
-	});
-
 	const updater = () => {
 		console.log("normal updater");
 		//시작시간을 catch하지 못한경우
@@ -90,7 +83,17 @@ try {
 		}
 	};
 
-	updater();
+	const dailyRepeat = () => {
+		schedule.scheduleJob("0 0 0 * * *", () => {
+			init()
+			updater()
+		})
+	}
+	
+	//하루 한번만 실행(날짜 바뀔때) 또는 서버 실행시 바로 실행
+	dailyRepeat()  //실행 예약하기
+	init();        //초기스크랩 실행
+	updater();     //업데이트 진행
 
 	const router = express.Router();
 
