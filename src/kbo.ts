@@ -84,18 +84,18 @@ try {
 	};
 
 	const dailyRepeat = () => {
-		console.log("daily routine start!")
+		console.log("daily routine start!");
 		schedule.scheduleJob("0 0 0 * * *", () => {
-			dailyRepeat()
-			init()
-			updater()
-		})
-	}
-	
+			dailyRepeat();
+			init();
+			updater();
+		});
+	};
+
 	//하루 한번만 실행(날짜 바뀔때) 또는 서버 실행시 바로 실행
-	dailyRepeat()  //실행 예약하기
-	init();        //초기스크랩 실행
-	updater();     //업데이트 진행
+	dailyRepeat(); //실행 예약하기
+	init(); //초기스크랩 실행
+	updater(); //업데이트 진행
 
 	const router = express.Router();
 
