@@ -86,7 +86,7 @@ try {
 	const dailyRepeat = () => {
 		console.log("daily routine start!");
 		schedule.scheduleJob("0 0 0 * * *", () => {
-			dailyRepeat();
+			// dailyRepeat();
 			init();
 			updater();
 		});
