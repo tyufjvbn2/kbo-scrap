@@ -18,15 +18,17 @@ try {
 	let startTime: string[] = [];
 
 	function scrap() {
-		return new Promise<resDataStructure>(async (resolve, reject) => {
-			let data = await run();
+		return new Promise<resDataStructure | undefined>(
+			async (resolve, reject) => {
+				let data = await run();
 
-			resolve(data);
-		});
+				resolve(data);
+			}
+		);
 	}
 
 	function init() {
-		scrap().then((data: resDataStructure) => {
+		scrap().then((data: any) => {
 			console.log("your shape?", data);
 			create(data.totalGame);
 			console.log("start time?", data.startTime);
@@ -40,7 +42,7 @@ try {
 		//시작시간을 catch하지 못한경우
 		if (startTime.length === 0) {
 			console.error("We failed to catch time of game start");
-			scrap().then((data: resDataStructure) => {
+			scrap().then((data: any) => {
 				console.log("Trying to catch time...");
 				startTime = data.startTime.split(":");
 				return updater();

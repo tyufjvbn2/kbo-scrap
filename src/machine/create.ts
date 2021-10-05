@@ -1,4 +1,4 @@
-const Data = require("../model/data");
+const Kbo_crawl = require("../model/data");
 import { timeChanger } from "./timechange";
 import { newScrapDataInterface } from "../interface/interface";
 import { v4 } from "uuid";
@@ -20,7 +20,7 @@ export const create = (scrapData: newScrapDataInterface[]) => {
 
 		console.log("url?", url);
 
-		const newData = await Data.findOneAndUpdate(
+		const newData = await Kbo_crawl.findOneAndUpdate(
 			uniqueKey,
 			{
 				...ele,

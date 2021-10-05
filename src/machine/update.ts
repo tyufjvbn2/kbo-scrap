@@ -1,4 +1,5 @@
-const Data = require("../model/data");
+const Kbo_crawl = require("../model/data");
+import { v4 } from "uuid";
 import { newScrapDataInterface } from "../interface/interface";
 import { timeChanger } from "./timechange";
 
@@ -14,9 +15,25 @@ export const update = (scrapData: newScrapDataInterface[]) => {
 			awayTeam: ele.awayTeam,
 		};
 
+		const missData = await Kbo_crawl.findOne(updateKey);
+
+		if (!missData) {
+			const url = v4();
+			const pushData = await Kbo_crawl.findOneAndUpdate(
+				updateKey,
+				{
+					...ele,
+					url: url,
+					createdAt: timeChanger(new Date()),
+					updatedAt: timeChanger(new Date()),
+				},
+				{ upsert: true, returnOriginal: false }
+			);
+		}
+
 		//경기 종료일때
 		if (ele.presentRound === 100) {
-			const target = await Data.findOneAndUpdate(updateKey, {
+			const target = await Kbo_crawl.findOneAndUpdate(updateKey, {
 				presentRound: ele.presentRound,
 				presentQuarter: ele.presentQuarter,
 				homeTeamScore: ele.homeTeamScore,
@@ -29,7 +46,7 @@ export const update = (scrapData: newScrapDataInterface[]) => {
 			console.log("end target?", target);
 		} else if (ele.presentRound !== -1) {
 			//경기 시작전이 아닐때(진행중일때)
-			const target = await Data.findOneAndUpdate(updateKey, {
+			const target = await Kbo_crawl.findOneAndUpdate(updateKey, {
 				presentRound: ele.presentRound,
 				presentQuarter: ele.presentQuarter,
 				homeTeamScore: ele.homeTeamScore,

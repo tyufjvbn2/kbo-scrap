@@ -16,7 +16,7 @@ module.exports = () => {
 			}
 
 			mongoose.connect(
-				`${process.env.DATABASE_HOST}/${DBconfig.development}`,
+				`${process.env.DATABASE_HOST}/${DBconfig.production}`,
 				{
 					keepAlive: true,
 					autoIndex: true,

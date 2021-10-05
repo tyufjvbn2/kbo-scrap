@@ -3,7 +3,7 @@ import { update } from "./update";
 import { resDataStructure } from "../interface/interface";
 
 function scrap() {
-	return new Promise<resDataStructure>(async (resolve, reject) => {
+	return new Promise<any>(async (resolve, reject) => {
 		let data = await run();
 
 		resolve(data);

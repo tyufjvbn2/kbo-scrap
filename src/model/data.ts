@@ -63,4 +63,4 @@ const dataSchema = new Schema(
 	{ versionKey: false }
 );
 
-module.exports = mongoose.model("Data", dataSchema, "data");
+module.exports = mongoose.model("Kbo_crawl", dataSchema, "kbo_crawl");

@@ -5,6 +5,7 @@ import { newScrapDataInterface } from "../interface/interface";
 import { timeChanger } from "./timechange";
 
 export const run = () => {
+	console.log("scrap start");
 	interface dynamicObj {
 		[key: number | string]: any;
 	}
@@ -31,7 +32,7 @@ export const run = () => {
 				"https://www.koreabaseball.com/Schedule/ScoreBoard.aspx"
 			);
 		} catch (err) {
-			console.error(err);
+			console.error("Catching html error : ", err);
 		}
 	};
 
@@ -103,6 +104,8 @@ export const run = () => {
 
 					placeTime.push($(ele).find("p.place").text());
 				});
+
+				console.log("scrap end");
 
 				return {
 					date,
