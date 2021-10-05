@@ -1,66 +1,24 @@
 import mongoose from "mongoose";
-
+import * as dotenv from "dotenv";
+dotenv.config();
 const Schema = mongoose.Schema;
-
-// interface scoreBoard {
-// 	1: string;
-// 	2: string;
-// 	3: string;
-// 	4: string;
-// 	5: string;
-// 	6: string;
-// 	7: string;
-// 	8: string;
-// 	9: string;
-// 	10: string;
-// 	11: string;
-// 	12: string;
-// 	R: string;
-// 	E: string;
-// 	H: string;
-// 	B: string;
-// }
-
-// interface DetailScoreStucture {
-// 	home: scoreBoard;
-// 	away: scoreBoard;
-// }
-
-// const oldDataSchema = new Schema(
-// 	{
-// 		date: Date,
-// 		placeTime: String,
-// 		homeTeam: String,
-// 		awayTeam: String,
-// 		inning: String,
-// 		score: String,
-// 		baseState: [Number],
-// 		ballCount: String,
-// 		detailScore: Object,
-// 		createdAt: Date,
-// 		updatedAt: Date,
-// 	},
-// 	{ versionKey: false }
-// );
 
 const dataSchema = new Schema(
 	{
-		date: Date,
-		place: String,
-		time: String,
-		homeTeam: String,
-		awayTeam: String,
-		homeTeamScore: Number,
-		awayTeamScore: Number,
-		presentRound: Number,
-		presentQuarter: Number,
-		baseStatus: String,
-		etc: Object,
-		url: { type: String, index: true },
-		createdAt: Date,
-		updatedAt: Date,
+		event: { type: String, required: true },
+		home_team: { type: String, required: true },
+		away_team: { type: String, required: true },
+		start_time: { type: Number, required: true },
+		update_time: { type: Number, required: true },
+		play_info: { type: Object, requred: true },
+		place: { type: String, required: true },
+		play_key: { type: String, required: true, unique: true },
 	},
-	{ versionKey: false }
+	{
+		versionKey: false,
+		timestamps: {},
+		autoIndex: process.env.NODE_ENV !== "production" ? true : false,
+	}
 );
 
 dataSchema.index({ url: 1 }, { unique: true });

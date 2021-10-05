@@ -1,32 +1,28 @@
 const Kbo_crawl = require("../model/data");
 import { timeChanger } from "./timechange";
-import { newScrapDataInterface } from "../interface/interface";
+import { ScrapDataInterface } from "../interface/interface";
 import { v4 } from "uuid";
 
-export const create = (scrapData: newScrapDataInterface[]) => {
+export const create = (scrapData: ScrapDataInterface[]) => {
 	console.log("data come?", scrapData);
 	scrapData.forEach(async (ele) => {
 		const uniqueKey = {
-			date: ele.date,
+			start_time: ele.start_time,
 			place: ele.place,
-			time: ele.time,
-			// placeTime: ele.placeTime,
-			homeTeam: ele.homeTeam,
-			awayTeam: ele.awayTeam,
+			home_team: ele.home_team,
+			away_team: ele.away_team,
 		};
 
 		console.log("unique key?", uniqueKey);
-		const url = v4();
+		const play_key = v4();
 
-		console.log("url?", url);
+		console.log("url?", play_key);
 
 		const newData = await Kbo_crawl.findOneAndUpdate(
 			uniqueKey,
 			{
 				...ele,
-				url: url,
-				createdAt: timeChanger(new Date()),
-				updatedAt: timeChanger(new Date()),
+				play_key: play_key,
 			},
 			{
 				upsert: true,
