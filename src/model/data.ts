@@ -56,11 +56,13 @@ const dataSchema = new Schema(
 		presentQuarter: Number,
 		baseStatus: String,
 		etc: Object,
-		url: String,
+		url: { type: String, index: true },
 		createdAt: Date,
 		updatedAt: Date,
 	},
 	{ versionKey: false }
 );
+
+dataSchema.index({ url: 1 }, { unique: true });
 
 module.exports = mongoose.model("Kbo_crawl", dataSchema, "kbo_crawl");
