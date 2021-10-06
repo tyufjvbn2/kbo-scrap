@@ -21,6 +21,6 @@ const dataSchema = new Schema(
 	}
 );
 
-dataSchema.index({ url: 1 }, { unique: true });
+dataSchema.index({ event: 1, play_key: 1 }, { unique: true });
 
-module.exports = mongoose.model("Kbo_crawl", dataSchema, "kbo_crawl");
+module.exports = mongoose.model("crawling_data", dataSchema, "crawling_data");

@@ -16,11 +16,12 @@ export const update = (scrapData: ScrapDataInterface[]) => {
 		const missData = await Kbo_crawl.findOne(updateKey);
 
 		if (!missData) {
-			const play_key = v4();
+			const play_key = v4().split("-").join("");
 			const pushData = await Kbo_crawl.findOneAndUpdate(
 				updateKey,
 				{
 					...ele,
+					event: "kbo",
 					play_key: play_key,
 				},
 				{ upsert: true, returnOriginal: false }

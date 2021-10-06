@@ -14,7 +14,7 @@ export const create = (scrapData: ScrapDataInterface[]) => {
 		};
 
 		console.log("unique key?", uniqueKey);
-		const play_key = v4();
+		const play_key = v4().split("-").join("");
 
 		console.log("url?", play_key);
 
@@ -22,6 +22,7 @@ export const create = (scrapData: ScrapDataInterface[]) => {
 			uniqueKey,
 			{
 				...ele,
+				event: "kbo",
 				play_key: play_key,
 			},
 			{
