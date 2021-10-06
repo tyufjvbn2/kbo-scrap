@@ -5,8 +5,8 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "tsc-watch --onsuccess \"node dist/index.js\"",
-		"kbo": "tsc-watch --onsuccess \"node dist/kbo.js\""
+		"check": "tsc-watch --onsuccess \"node dist/index.js\"",
+		"start": "tsc-watch --onsuccess \"node dist/kbo.js\""
 	},
 	"author": "",
 	"license": "ISC",
