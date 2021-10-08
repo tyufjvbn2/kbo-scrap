@@ -18,7 +18,8 @@ export const repeater = () => {
 			if (data.gameChecker !== data.totalGame.length) {
 				update(data.totalGame);
 			} else {
-				//모든 경기 종료시
+				//모든 경기 종료시 마지막 상태 업데이트 후 반복 종료
+				update(data.totalGame);
 				console.log("All game end");
 				clearInterval(keepUpdate);
 			}
