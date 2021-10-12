@@ -63,15 +63,15 @@ export const run = () => {
 				totalGameSet.each((i, ele) => {
 					ballCount.push($(ele).find("div.base").text());
 					homeTeam.push(
-						$(ele).find("p.leftTeam strong.teamT").text()
+						$(ele).find("p.rightTeam strong.teamT").text()
 					);
 					awayTeam.push(
-						$(ele).find("p.rightTeam strong.teamT").text()
+						$(ele).find("p.leftTeam strong.teamT").text()
 					);
 					inning.push($(ele).find("strong.flag span").text());
 					score.push(
-						`${$(ele).find("p.leftTeam em.score").text()}-${$(ele)
-							.find("p.rightTeam em.score")
+						`${$(ele).find("p.rightTeam em.score").text()}-${$(ele)
+							.find("p.leftTeam em.score")
 							.text()}`
 					);
 					let tempArr: number[] = [];
