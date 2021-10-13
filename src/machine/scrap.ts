@@ -179,11 +179,11 @@ export const run = () => {
 									: baseState[i].join(""),
 							ball:
 								ballCount[i] === "- out" || ballCount[i] === ""
-									? 0
+									? -1
 									: Number(ballCount[i].split("-")[0]),
 							strike:
 								ballCount[i] === "- out" || ballCount[i] === ""
-									? 0
+									? -1
 									: Number(
 											ballCount[i]
 												.split("-")[1]
@@ -191,7 +191,7 @@ export const run = () => {
 									  ),
 							out:
 								ballCount[i] === "- out" || ballCount[i] === ""
-									? 0
+									? -1
 									: Number(
 											ballCount[i]
 												.split("-")[1]
