@@ -8,6 +8,9 @@ import { repeater } from "./machine/repeat";
 import { resDataStructure } from "./interface/interface";
 const mongooseConfig = require("./config/config");
 
+// let daily
+let routine: any;
+
 try {
 	mongooseConfig();
 	const app = express();
@@ -77,10 +80,11 @@ try {
 				console.log("not yet");
 				//경기 시작시간보다 미리 켠 경우
 				//지정된 경기 시작시간에 start, 모든 경기 끝나는 순간 end
-				schedule.scheduleJob(
+				routine = schedule.scheduleJob(
 					`0 ${startTime[1]} ${startTime[0]} * * *`,
 					repeater
 				);
+				console.log("cron schedule add!");
 			}
 		}
 	};
@@ -88,6 +92,8 @@ try {
 	const dailyRepeat = () => {
 		console.log("daily routine start!");
 		schedule.scheduleJob("0 0 0 * * *", () => {
+			routine.cancelNext(true);
+			console.log("cron schedule reset!");
 			// dailyRepeat();
 			init();
 			updater();

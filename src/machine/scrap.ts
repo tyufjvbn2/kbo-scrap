@@ -161,6 +161,8 @@ export const run = () => {
 						home_team: homeTeam[i],
 						away_team: awayTeam[i],
 						play_info: {
+							home_team: homeTeam[i],
+							away_team: awayTeam[i],
 							home_team_score:
 								score[i] === "-"
 									? 0
