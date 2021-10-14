@@ -159,6 +159,7 @@ export const run = () => {
 						start_time: timeChanger(
 							date + placeTime[i].split(" ")[1]
 						).getTime(),
+						content_id: 0,
 						place: placeTime[i].split(" ")[0],
 						home_team: homeTeam[i],
 						away_team: awayTeam[i],

@@ -7,6 +7,7 @@ import { repeater } from "./machine/repeat";
 // import { ScrapDataInterface } from "./interface/interface";
 import { resDataStructure } from "./interface/interface";
 const mongooseConfig = require("./config/config");
+const Kbo_crawl = require("./model/data");
 
 // let daily
 let routine: any;
@@ -114,6 +115,17 @@ try {
 	router.get("/", (req, res) => {
 		res.status(200).send("Scrap Server!!");
 	});
+
+	// router.post("/content/kbo/", async (req, res) => {
+	// 	const target = await Kbo_crawl.findOneAndUpdate(
+	// 		{play_key: req.body.play_key},
+	// 		{
+	// 			content_id: req.body.content_id
+	// 		}
+	// 		)
+	// 	//게임 찾고 req의 값 받아서 업데이트,
+	// 	//업데이트 된 값 내려주기
+	// })
 
 	// router.get("/data", (req, res) => {
 	// 	res.status(200).json({ data: data });

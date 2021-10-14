@@ -14,22 +14,28 @@ export const create = (scrapData: ScrapDataInterface[]) => {
 		};
 
 		console.log("unique key?", uniqueKey);
-		const play_key = v4().split("-").join("");
 
-		console.log("url?", play_key);
+		const searchData = await Kbo_crawl.findOne(uniqueKey);
 
-		const newData = await Kbo_crawl.findOneAndUpdate(
-			uniqueKey,
-			{
-				...ele,
-				event: "kbo",
-				play_key: play_key,
-			},
-			{
-				upsert: true,
-				returnOriginal: false,
-			}
-		);
+		if (!searchData) {
+			const play_key = v4().split("-").join("");
+
+			console.log("url?", play_key);
+
+			const newData = await Kbo_crawl.findOneAndUpdate(
+				uniqueKey,
+				{
+					...ele,
+					event: "kbo",
+					play_key: play_key,
+				},
+				{
+					upsert: true,
+					returnOriginal: false,
+				}
+			);
+		}
+
 		// console.log("each data?", newData);
 	});
 };
