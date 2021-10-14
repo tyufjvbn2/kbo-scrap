@@ -54,6 +54,8 @@ try {
 			console.log("We catch game start time. It will be start on time");
 
 			//현재시간 확인
+			//로컬에서는 new date만
+			//aws에서는 +9시간 적용되어야 함
 			let currentTime = new Date()
 				.toString()
 				.split(" ")[4]

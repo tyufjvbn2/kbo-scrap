@@ -153,8 +153,10 @@ export const run = () => {
 						}
 					}
 
+					//aws상에는 start_time에 time changer가 적용되어야 함
+					//로컬에서는 new Date 처리
 					const eachGame = {
-						start_time: timeChanger(
+						start_time: new Date(
 							date + placeTime[i].split(" ")[1]
 						).getTime(),
 						place: placeTime[i].split(" ")[0],
