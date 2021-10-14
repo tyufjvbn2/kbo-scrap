@@ -153,8 +153,8 @@ export const run = () => {
 						}
 					}
 
-					//aws상에는 start_time에 time changer가 적용되어야 함
-					//로컬에서는 new Date 처리
+					//aws상에는 start_time에 time changer가 적용되어야 함 (kst값으로 저장됨)
+					//로컬에서는 new Date 처리 (utc값으로 출력됨)
 					const eachGame = {
 						start_time: new Date(
 							date + placeTime[i].split(" ")[1]
