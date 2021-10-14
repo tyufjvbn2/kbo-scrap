@@ -121,24 +121,24 @@ try {
 		res.status(200).send("Scrap Server!!");
 	});
 
-	router.post("/content/kbo/", async (req, res) => {
-		const target = await Kbo_crawl.findOne({ play_key: req.body.play_key });
-		console.log("content_id update", target);
+	// router.post("/content/kbo/", async (req, res) => {
+	// 	const target = await Kbo_crawl.findOne({ play_key: req.body.play_key });
+	// 	console.log("content_id update", target);
 
-		if (!target) {
-			res.status(403).json({ message: "There is no play key in DB" });
-		} else {
-			const updatedData = await Kbo_crawl.findOneAndUpdate(
-				{ play_key: req.body.play_key },
-				{ content_id: req.body.content_id }
-			);
-			console.log("update?", updatedData);
-			res.status(200).json({ message: "Content ID update success!" });
-		}
+	// 	if (!target) {
+	// 		res.status(403).json({ message: "There is no play key in DB" });
+	// 	} else {
+	// 		const updatedData = await Kbo_crawl.findOneAndUpdate(
+	// 			{ play_key: req.body.play_key },
+	// 			{ content_id: req.body.content_id }
+	// 		);
+	// 		console.log("update?", updatedData);
+	// 		res.status(200).json({ message: "Content ID update success!" });
+	// 	}
 
-		//게임 찾고 req의 값 받아서 업데이트,
-		//업데이트 된 값 내려주기
-	});
+	// 	//게임 찾고 req의 값 받아서 업데이트,
+	// 	//업데이트 된 값 내려주기
+	// });
 
 	// router.get("/data", (req, res) => {
 	// 	res.status(200).json({ data: data });
