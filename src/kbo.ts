@@ -1,5 +1,7 @@
 import express from "express";
 import schedule from "node-schedule";
+import cors from "cors";
+import * as dotenv from "dotenv";
 import { run } from "./machine/scrap";
 import { create } from "./machine/create";
 // import { update } from "./machine/update";
@@ -8,6 +10,7 @@ import { repeater } from "./machine/repeat";
 import { resDataStructure } from "./interface/interface";
 const mongooseConfig = require("./config/config");
 const Kbo_crawl = require("./model/data");
+dotenv.config();
 
 // let daily
 let routine: any;
@@ -15,6 +18,8 @@ let routine: any;
 try {
 	mongooseConfig();
 	const app = express();
+
+	app.use(cors());
 
 	app.use(express.urlencoded({ extended: true }));
 	app.use(express.json());
@@ -116,22 +121,30 @@ try {
 		res.status(200).send("Scrap Server!!");
 	});
 
-	// router.post("/content/kbo/", async (req, res) => {
-	// 	const target = await Kbo_crawl.findOneAndUpdate(
-	// 		{play_key: req.body.play_key},
-	// 		{
-	// 			content_id: req.body.content_id
-	// 		}
-	// 		)
-	// 	//게임 찾고 req의 값 받아서 업데이트,
-	// 	//업데이트 된 값 내려주기
-	// })
+	router.post("/content/kbo/", async (req, res) => {
+		const target = await Kbo_crawl.findOne({ play_key: req.body.play_key });
+		console.log("content_id update", target);
+
+		if (!target) {
+			res.status(403).json({ message: "There is no play key in DB" });
+		} else {
+			const updatedData = await Kbo_crawl.findOneAndUpdate(
+				{ play_key: req.body.play_key },
+				{ content_id: req.body.content_id }
+			);
+			console.log("update?", updatedData);
+			res.status(200).json({ message: "Content ID update success!" });
+		}
+
+		//게임 찾고 req의 값 받아서 업데이트,
+		//업데이트 된 값 내려주기
+	});
 
 	// router.get("/data", (req, res) => {
 	// 	res.status(200).json({ data: data });
 	// });
 
-	app.listen(3333, () => {
+	app.listen(process.env.PORT, () => {
 		console.log("Data scraping servering is running");
 	});
 } catch (err) {

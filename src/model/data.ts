@@ -11,6 +11,7 @@ const dataSchema = new Schema(
 		start_time: { type: Number, required: true },
 		update_time: { type: Number, required: true },
 		play_info: { type: Object, requred: true },
+		content_id: { type: Object, required: true },
 		place: { type: String, required: true },
 		play_key: { type: String, required: true, unique: true },
 	},
