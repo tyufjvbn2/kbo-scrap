@@ -100,7 +100,7 @@ try {
 	const dailyRepeat = () => {
 		console.log("daily routine start!");
 		schedule.scheduleJob("0 0 0 * * *", () => {
-			routine.cancelNext(true);
+			routine.cancel();
 			console.log("cron schedule reset!");
 			// dailyRepeat();
 			init();
