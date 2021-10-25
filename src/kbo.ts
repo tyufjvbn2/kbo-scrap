@@ -81,7 +81,6 @@ try {
 			if (trimmedStartTime <= trimmedCurrentTime) {
 				console.log("too late");
 				//반복실행
-				// repeat;
 				repeater();
 				console.log("too late end");
 			} else if (trimmedStartTime > trimmedCurrentTime) {
@@ -100,9 +99,12 @@ try {
 	const dailyRepeat = () => {
 		console.log("daily routine start!");
 		schedule.scheduleJob("0 0 0 * * *", () => {
-			routine.cancel();
-			console.log("cron schedule reset!");
-			// dailyRepeat();
+			if (!routine) {
+				console.log("cron didn't set. I will set again");
+			} else {
+				routine.cancel();
+				console.log("cron schedule reset!");
+			}
 			init();
 			updater();
 		});
