@@ -47,6 +47,14 @@ export const update = (scrapData: ScrapDataInterface[]) => {
 				// updatedAt: timeChanger(new Date()),
 			});
 			console.log("ongoin target?", target);
+			const used = process.memoryUsage();
+			// for (let key in used) {
+			console.log(
+				`Memory:  ${
+					Math.round((used.rss / 1024 / 1024) * 100) / 100
+				} MB`
+			);
+			// }
 		}
 	});
 };

@@ -146,6 +146,13 @@ try {
 	// 	res.status(200).json({ data: data });
 	// });
 
+	//메모리 측정
+	// console.log(
+	// 	`Memory:  ${
+	// 		Math.round((process.memoryUsage().rss / 1024 / 1024) * 100) / 100
+	// 	} MB`
+	// );
+
 	app.listen(process.env.PORT, () => {
 		console.log("Data scraping servering is running");
 	});
