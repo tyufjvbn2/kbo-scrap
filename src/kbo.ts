@@ -62,6 +62,7 @@ try {
 			//현재시간 확인
 			//로컬에서는 new date만
 			//aws에서는 +9시간 적용되어야 함
+			//하지만 실제 스케줄링시는 +9 하지 않은 시간으로 걸어야 함
 			let currentTime = new Date()
 				.toString()
 				.split(" ")[4]
@@ -92,6 +93,8 @@ try {
 				console.log("not yet");
 				//경기 시작시간보다 미리 켠 경우
 				//지정된 경기 시작시간에 start, 모든 경기 끝나는 순간 end
+				//로컬에서는 그냥 스타트 타임을 걸어주어도 됨
+				//aws상에서는 -9한 시간을 걸어주어야 진짜 시작시간에 시작함(단 오전 9시보다 이른 시각에 시작하는 경우에는 날짜 변경되어 시작되는 것을 고려할 것)
 				routine = schedule.scheduleJob(
 					`0 ${startTime[1]} ${startTime[0]} * * *`,
 					repeater
