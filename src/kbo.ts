@@ -76,7 +76,7 @@ try {
 			console.log("time done");
 
 			console.log("local start time?", trimmedStartTime);
-			console.log("local current time?", trimmedStartTime);
+			console.log("local current time?", trimmedCurrentTime);
 
 			console.log("check point");
 			console.log("current", trimmedCurrentTime);
