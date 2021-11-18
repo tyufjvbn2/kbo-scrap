@@ -13,7 +13,7 @@ export const create = (scrapData: ScrapDataInterface[]) => {
 			away_team: ele.away_team,
 		};
 
-		// console.log("unique key?", uniqueKey);    /* ---- recover  ------ */
+		// console.log("unique key?", uniqueKey); /* ---- recover  ------ */
 
 		const searchData = await Kbo_crawl.findOne(uniqueKey);
 

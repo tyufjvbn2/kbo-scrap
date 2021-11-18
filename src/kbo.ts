@@ -38,7 +38,7 @@ try {
 
 	function init() {
 		scrap().then((data: any) => {
-			// console.log("your shape?", data);   /* ---- recover  ------ */
+			// console.log("your shape?", data); /* ---- recover  ------ */
 			create(data.totalGame);
 			console.log("start time?", data.startTime);
 			startTime = data.startTime.split(":");
@@ -95,10 +95,11 @@ try {
 				//지정된 경기 시작시간에 start, 모든 경기 끝나는 순간 end
 				//로컬에서는 그냥 스타트 타임을 걸어주어도 됨
 				//aws상에서는 -9한 시간을 걸어주어야 진짜 시작시간에 시작함(단 오전 9시보다 이른 시각에 시작하는 경우에는 날짜 변경되어 시작되는 것을 고려할 것)
-				routine = schedule.scheduleJob(
-					`0 ${startTime[1]} ${startTime[0]} * * *`,
-					repeater
-				);
+				if (startTime)
+					routine = schedule.scheduleJob(
+						`0 ${startTime[1]} ${startTime[0]} * * *`,
+						repeater
+					);
 				console.log("cron schedule add!");
 			}
 		}

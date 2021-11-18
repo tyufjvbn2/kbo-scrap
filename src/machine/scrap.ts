@@ -153,8 +153,16 @@ export const run = () => {
 						}
 					}
 
-					//aws상에는 start_time에 time changer가 적용되어 있음 (kst값으로 저장됨)
-					//로컬에서는 timeChanger 처리 (utc값으로 출력됨)
+					console.log(
+						"i wanna know how we trim time : ",
+						timeChanger(date + placeTime[i].split(" ")[1]).getTime()
+					);
+
+					//timeChanger는 크롤링하는 시간값을 utc로 맞추기 위한 모듈
+					//현재는 기본적으로 start time에 timeChanger를 먹여서 utc값으로 db에 저장하고 있음
+					//로컬에서는 kbo.ts에서 시간을 +9하여 스케줄 걸어야 함
+					//aws에서는 다른 처리 없이 걸어도 무방
+					//-------중요한 것은 여기서 utc 처리하는 시간은 실제 db에 저장되는 값이므로 여기서는 변동하지 말것!!!  ---- 스케줄 타임이 안맞다면 kbo.ts에서 걸어야 함!!!
 					const eachGame = {
 						start_time: timeChanger(
 							date + placeTime[i].split(" ")[1]
@@ -205,7 +213,7 @@ export const run = () => {
 					};
 					totalGame.push(eachGame);
 				}
-				// console.log("total recall?", totalGame);  /* ---- recover  ------ */
+				// console.log("total recall?",totalGame); /* ---- recover  ------ */
 
 				//이제 하나씩 뽑아서 atlas로 보내기
 
