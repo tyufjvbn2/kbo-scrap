@@ -155,7 +155,7 @@ export const run = () => {
 
 					console.log(
 						"i wanna know how we trim time : ",
-						timeChanger(date + placeTime[i].split(" ")[1]).getTime()
+						timeChanger(date + placeTime[i].split(" ")[1])
 					);
 
 					//timeChanger는 크롤링하는 시간값을 utc로 맞추기 위한 모듈
