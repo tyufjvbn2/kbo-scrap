@@ -38,7 +38,7 @@ try {
 
 	function init() {
 		scrap().then((data: any) => {
-			console.log("your shape?", data);
+			// console.log("your shape?", data);   /* ---- recover  ------ */
 			create(data.totalGame);
 			console.log("start time?", data.startTime);
 			startTime = data.startTime.split(":");
@@ -68,10 +68,15 @@ try {
 				.slice(0, 5)
 				.split(":");
 
+			console.log("real current time?", currentTime);
+
 			let trimmedStartTime = Number(startTime.join(""));
 			let trimmedCurrentTime = Number(currentTime.join(""));
 
 			console.log("time done");
+
+			console.log("local start time?", trimmedStartTime);
+			console.log("local current time?", trimmedStartTime);
 
 			console.log("check point");
 			console.log("current", trimmedCurrentTime);

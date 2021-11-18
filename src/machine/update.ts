@@ -4,7 +4,7 @@ import { ScrapDataInterface } from "../interface/interface";
 // import { timeChanger } from "./timechange";
 
 export const update = (scrapData: ScrapDataInterface[]) => {
-	console.log("update come?", scrapData);
+	// console.log("update come?", scrapData);   /* ---- recover  ------ */
 	scrapData.forEach(async (ele) => {
 		const updateKey = {
 			start_time: ele.start_time,

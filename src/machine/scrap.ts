@@ -205,7 +205,7 @@ export const run = () => {
 					};
 					totalGame.push(eachGame);
 				}
-				console.log("total recall?", totalGame);
+				// console.log("total recall?", totalGame);  /* ---- recover  ------ */
 
 				//이제 하나씩 뽑아서 atlas로 보내기
 
