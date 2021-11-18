@@ -153,15 +153,13 @@ export const run = () => {
 						}
 					}
 
-					console.log(
-						"i wanna know how we trim time : ",
-						timeChanger(date + placeTime[i].split(" ")[1])
-					);
+					// console.log(
+					// 	"i wanna know how we trim time : ",
+					// 	timeChanger(date + placeTime[i].split(" ")[1])
+					// );
 
 					//timeChanger는 크롤링하는 시간값을 utc로 맞추기 위한 모듈
 					//현재는 기본적으로 start time에 timeChanger를 먹여서 utc값으로 db에 저장하고 있음
-					//로컬에서는 kbo.ts에서 시간을 +9하여 스케줄 걸어야 함
-					//aws에서는 다른 처리 없이 걸어도 무방
 					//-------중요한 것은 여기서 utc 처리하는 시간은 실제 db에 저장되는 값이므로 여기서는 변동하지 말것!!!  ---- 스케줄 타임이 안맞다면 kbo.ts에서 걸어야 함!!!
 					const eachGame = {
 						start_time: timeChanger(
@@ -219,6 +217,10 @@ export const run = () => {
 
 				console.log("game schedule?", res.placeTime);
 
+				//크롤링 스타트 시간을 뽑아내는 부분
+				//utc변화값이 아닌 크롤링 raw데이터 시간에서 뽑아내고 있음
+				//따라서 실행환경에 상관없이 kst타임에 맞춰서 startTime이 내려감!!
+				//결국 kbo.ts에서 스케줄 시간 조정해줘야 함
 				let earlyTime = res.placeTime
 					.map((el) => {
 						return el.split(" ")[1];
